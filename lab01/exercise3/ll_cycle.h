@@ -1,6 +1,8 @@
 #ifndef LL_CYCLE_H
 #define LL_CYCLE_H
 
+#include <stdbool.h>
+
 typedef struct node {
     int value;
     struct node *next;
