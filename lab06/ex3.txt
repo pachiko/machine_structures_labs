@@ -1,0 +1,2 @@
+Critical path = C2Q + longest combinational + Setup
+= 10 + (60 + 45) + 10 = 125ns 

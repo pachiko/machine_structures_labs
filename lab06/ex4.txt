@@ -1,0 +1,5 @@
+Critical path of multiply stage = 10 + 60 + 10 = 80ns
+Critical path of addition stage = 10 + 45 + 10 = 65ns
+
+Critical path of pipelined circuit = 80ns
+Max Clock Frequency = 12.5MHz
