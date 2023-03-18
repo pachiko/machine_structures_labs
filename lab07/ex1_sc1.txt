@@ -1,0 +1,32 @@
+Scenario 1:
+
+Program Parameters:
+Array Size (a0): 128 (bytes)
+Step Size (a1): 8
+Rep Count (a2): 4
+Option (a3): 0 (zeroing)
+
+Cache Parameters:
+Cache Levels: 1
+Block Size: 8
+Number of Blocks: 4
+Placement Policy: Direct Mapped
+Associativity: 1  (Direct Mapped is always 1-way associative)
+Block Replacement Policy: LRU
+
+Tasks:
+Q: What combination of parameters is producing the hit rate you observe?
+A: Because step size in bytes is exactly equal to cache size in bytes. Each iteration
+increments the tag, but not the index or offset, so the same block gets used repeatedly in the Direct-Mapped cache.
+
+Q: What is the hit rate if we increase Rep Count arbitrarily?
+A: 0.0
+
+Q: How could we modify one program parameter to get an increased hit rate?
+A: step size = 1, Hit rate = 0.5. Because each each block can hold 2 integers, a miss is always followed by a hit (write-allocate).
+All other step sizes have the same hit rate of 0.0, because they do not reuse the other integer in the block,
+and this is a Direct-Mapped cache so the block gets replaced many times in the same repetition.
+Eg if step size = 2, the a[1:0] are in block 0; a[3;2] are requested next and that is a miss..
+then when requesting a[9:8], it replaces the value in block 0 (kicks out a[1:0]), ensuring the same misses
+happen again for the next repetition.
+

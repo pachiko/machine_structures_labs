@@ -1,0 +1,118 @@
+Consider a 4 x 4 row-major matrix needing transpose.
+The cache block is 8 Bytes wide, and there are 4 blocks.
+So it can hold 2 integers per block, a total of 8 integers.
+
+
+
+===== W/O blocking: =====
+for (int i = 0; i < n; i++) {
+	for (int j = 0; j < n; j++) {
+		A[i*n + j] = B[j*n + i];
+	}
+}
+
+
+i=0, j=0
+A[0] = B[0]
+
+B[1:0]
+A[1:0]
+------
+------
+
+Read: Miss, Write: Miss
+
+
+i=0, j=1
+A[1] = B[4]
+
+B[1:0]
+A[1:0]
+B[5:4]
+------
+
+Read: Miss, Write: Hit
+
+
+i=0, j=2
+A[2] = B[8]
+
+A[3:2]
+A[1:0]
+B[5:4]
+B[9:8]
+
+Read: Miss, Write: Miss
+
+
+i=0, j=3
+A[3] = B[12]
+
+A[3:2]
+B[13:12]
+B[5:4]
+B[9:8]
+
+Read: Miss, Write: Hit
+
+===== The second B integer is never used, Miss rate = 6/8 ======
+
+
+
+===== W/ blocking: =====
+Consider first block only, 2 x 2 submatrix
+for (int i = 0; i < b; i++) {
+	for (int j = 0; j < b; j++) {
+		A[i*n + j] = B[j*n + i];
+	}
+}
+
+
+i=0, j=0
+A[0] = B[0]
+
+B[1:0]
+A[1:0]
+------
+------
+
+Read: Miss, Write: Miss
+
+
+i=0, j=1
+A[1] = B[4]
+
+B[1:0]
+A[1:0]
+B[5:4]
+------
+
+Read: Miss, Write: Hit
+
+
+i=1, j=0
+A[4] = B[1]
+
+B[1:0]
+A[1:0]
+B[5:4]
+A[5:4]
+
+Read: Hit, Write: Miss
+
+
+i=1, j=1
+A[5] = B[5]
+
+B[1:0]
+A[1:0]
+B[5:4]
+A[5:4]
+
+
+Read: Hit, Write: Hit
+
+===== The second B integer is used, Miss rate = 4/8 ======
+
+
+The gist is to write code that uses as much data from cache blocks before evicting.

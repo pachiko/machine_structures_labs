@@ -1,0 +1,42 @@
+Scenario 2:
+
+Program Parameters:
+Array Size (a0): 128 (bytes)
+Step Size (a1): 1
+Rep Count (a2): 1
+Option (a3): 0 (increment)
+
+Cache Parameters:
+Cache Levels: 2
+
+L1:
+Block Size: 8
+Number of Blocks: 8
+Placement Policy: Direct Mapped
+Associativity: 1
+Block Replacement Policy: LRU
+
+L2:
+Block Size: 8
+Number of Blocks: 16
+Placement Policy: Direct Mapped
+Associativity: 1
+Block Replacement Policy: LRU
+
+Tasks:
+Q: What is the hit rate of the L1 cache? The L2 cache? Overall?
+A: 0.5, 0.0, 0.25.
+
+Q: How many accesses do we have to the L1 cache total? How many of them are misses?
+A: 32 accesses. 16 misses.
+
+Q: How many accesses do we have to the L2 cache total?
+HINT: Think about what the L1 cache has to do in order to make us access the L2 cache.
+A: 16 times. All caused by L1 misses.
+
+Q: What program parameter would allow us to increase the L2 hit rate, but keep the L1 hit rate the same?
+A: Increase rep count.
+
+Q: Do our L1 and L2 hit rates decrease (-), stay the same (=), or increase (+) as we 
+(1) increase the number of blocks in L1, or (2) increase the L1 block size?
+A: (1) L1 = , L2 = (2) L1 + , L2 = 

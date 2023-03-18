@@ -1,0 +1,59 @@
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 10000 33
+Testing naive transpose: 754.348 milliseconds
+Testing transpose with blocking: 86 milliseconds
+
+
+Part 1 - Changing Array Sizes
+Fix the blocksize to be 20, and run your code with n equal to 100, 1000, 2000, 5000, and 10000.
+
+Question 1: At what point does cache blocked version of transpose become faster than the non-cache blocked version?
+
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 100 20
+Testing naive transpose: 0.005 milliseconds
+Testing transpose with blocking: 0.004 milliseconds
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 1000 20
+Testing naive transpose: 0.692 milliseconds
+Testing transpose with blocking: 0.527 milliseconds
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 2000 20
+Testing naive transpose: 18.786 milliseconds
+Testing transpose with blocking: 3.274 milliseconds
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 5000 20
+Testing naive transpose: 173.139 milliseconds
+Testing transpose with blocking: 21.237 milliseconds
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 10000 20
+Testing naive transpose: 760.769 milliseconds
+Testing transpose with blocking: 105.684 milliseconds
+
+Question 2: Why does cache blocking require the matrix to be a certain size before it outperforms the non-cache blocked code?
+(Sanity check: the blocked version isn't faster than the naive version until the matrix size is sufficiently big.)
+
+With small matrices, all elements can fit in the cache. So it doesn't matter how we access it.
+Additionally, cache-blocking requires 4 loops compared to non-blocking using 2 loops.
+This makes it marginally slower due to additional loop overhead.
+Note that results are different but not trustworthy since the profiler has finite precision and cannot measure times that are too small.
+
+
+Part 2 - Changing Block Size
+Fix n to be 10000, and run your code with blocksize equal to 50, 100, 500, 1000, 5000.
+
+Question 3: How does performance change as blocksize increases? Why is this the case?
+(Sanity check: as you increase blocksize, the amount of speedup should change in one direction, then change in the other direction.)
+
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 10000 50
+Testing naive transpose: 763.826 milliseconds
+Testing transpose with blocking: 96.236 milliseconds
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 10000 100
+Testing naive transpose: 772.277 milliseconds
+Testing transpose with blocking: 93.273 milliseconds
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 10000 500
+Testing naive transpose: 765.626 milliseconds
+Testing transpose with blocking: 101.472 milliseconds
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 10000 1000
+Testing naive transpose: 764.722 milliseconds
+Testing transpose with blocking: 150.556 milliseconds
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ ./transpose 10000 5000
+Testing naive transpose: 793.878 milliseconds
+Testing transpose with blocking: 756.014 milliseconds
+
+Performance increases, then decreases. As the block size gets larger, the returns diminish since we have to
+cross-over more cache lines per block inner-loop. The block gradually represents the large matrix.

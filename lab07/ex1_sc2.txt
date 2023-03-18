@@ -1,0 +1,30 @@
+Scenario 2:
+
+Program Parameters:
+Array Size (a0): 256 (bytes)
+Step Size (a1): 2
+Rep Count (a2): 1
+Option (a3): 1 (increment)
+
+Cache Parameters:
+Cache Levels: 1
+Block Size: 16
+Number of Blocks: 16
+Placement Policy: N-Way Set Associative
+Associativity: 4
+Block Replacement Policy: LRU
+
+Tasks:
+Q: How many memory accesses are there per iteration of the inner loop (not the one involving Rep Count)?
+A: At i=0, it is a read miss, so load the block into cache from memory. Then increment and store the result,
+it is a write hit since i=0 was just pulled from memory into cache.
+At i=2, it is a read hit. Store the incremented value will again write to memory and it is a write hit.
+This pattern repeats for all 32 iterations. Each block has 2 + 2 accesses, there are 16 blocks so 64 access.
+
+Q: What is the repeating hit/miss pattern?
+A: miss, then hit, hit and hit. Hit rate is 0.75
+
+Q: Keeping everything else the same, what does our hit rate approach as Rep Count goes to infinity?
+A: Hit rate approaches 1.0 as Rep Count approaches infinity, because the cache size is enough to store all array elements
+w/o needing to replace/eject any block.
+

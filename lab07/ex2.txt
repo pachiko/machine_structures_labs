@@ -1,0 +1,48 @@
+phill@DESKTOP-OHH2GO8:/mnt/a/machine_structures_lab/lab07$ make ex2
+gcc -o matrixMultiply -ggdb -Wall -pedantic -std=gnu99 -O3 matrixMultiply.c
+./matrixMultiply
+ijk:    n = 1000, 2.168 Gflop/s
+ikj:    n = 1000, 0.187 Gflop/s
+jik:    n = 1000, 2.224 Gflop/s
+jki:    n = 1000, 15.700 Gflop/s
+kij:    n = 1000, 0.189 Gflop/s
+kji:    n = 1000, 13.883 Gflop/s
+
+Q: Which 2 orderings perform best for these 1000-by-1000 matrices?
+A: jki and kji
+
+Q: Which 2 orderings perform the worst?
+A: kij ikj
+
+This question uses column-major arrays, which is different that row-major (what we used to).
+Column major: C[i + j*n] += A[i + k*n] * B[k + j*n];
+Row major: C[i*n + j] += A[i*n + k] + B[k*n + j];
+
+===============================================================================================
+Wrong to assume i is the column index (goes rightwards) of C here, since that is for row-major.
+i is actually the row index of C (goes downwards).
+
+Let C = [w x / y z] = [w, y, x, z]
+Let A = [a b / c d] = [a, c, b, d]
+Let B = [e f / g h] = [e, g, f, h]
+
+i is the row index of C and A 
+j is the column index of C and B
+k is the column index of A and row index of B.
+===============================================================================================
+
+MORE IMPORTANTLY,
+i is the offset of A, C
+j is the stride of B, C
+k is the stride of A, offset of B
+
+To maximise performance, we go by stride, then offset.
+Index i offsets 2 matrices, so the best performance is when i is the inner-most loop.
+Index j strides 2 matrices, so the worst performance is when j is the inner-most loop.
+
+===============================================================================================
+
+The questions simulates column-major in C by using 1D-pointers for the matrices, and just filling it with
+random values and pretending they are column-major.
+
+If you were to use actual 2D matrices like A[1000][1000], they will be forced to be row-major by C.
