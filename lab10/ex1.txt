@@ -1,0 +1,33 @@
+Q: Given the way the address was broken down, how big (in words) are the pages in this model? Leave out the units in your answer (e.g. 4 instead of 4 words).
+A: 32 words per page.
+ 
+Q: Did you have any Page Hits? Can you think of a set of ten addresses that would result in a Page Hit?
+A: None. The number of pages that fit in physical memory equals the number of entries in TLB, which is 4.
+Need to increase physical memory capacity to get page hit.
+
+Q: What is the process by which we access memory given a virtual address on the very first access assuming a page fault?
+A:
+Access given virtual address.
+Calculate number of offset bits by taking log 2 of page size.
+Calculate number of virtual page number (VPN) bits through the VA bits and offset bits.
+Get VPN by taking VA[address bits - 1 : offset bits].
+Access TLB for corresponding VPN.
+TLB does not contain the VPN so we access the page table for the corresponding VPN.
+The page table's entry for VPN has a valid bit of 0.
+We bring the corresponding virtual page into physical memory from disk.
+Get offset by taking VA[offset bits - 1 ; 0].
+We access the corresponding word using the offset.
+We update the page table to map the corresponding VPN to the PPN.
+We update the TLB with the corresponding PT entry.
+
+Q: How many PPN bits are there?
+A: 2 bits. Since physical memory can only hold 4 pages.
+
+Q: How many VPN bits are there?
+A: 3 bits. Virtual address was 8 bits, and each page is 32 words, so 5 bits. 8 - 5 = 3.
+
+Q: How many physical pages are there?
+4 pages. 2 physical page number bits.
+
+Q: How many virtual pages are there?
+8 pages. 3 virtual page number bits.

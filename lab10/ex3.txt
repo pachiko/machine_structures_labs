@@ -1,0 +1,7 @@
+Q: 
+Given your sequence of memory accesses from Exercise 2, can you find a change to a single parameter 
+(e.g. TLB Size, Physical Memory Size, Virtual Memory Size, Page Size)
+that would result in the same number (ten) of TLB misses but result in fewer than ten page faults?
+Write down two parameters for which if each got individually changed (while all other parameters stay the same)
+would result in ten TLB misses but fewer than ten page faults.
+A: Increase physical memory size. Reduce page size.

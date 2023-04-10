@@ -1,0 +1,14 @@
+Q: What is different about the setup of the system in this question as compared to the setup in CAMERA? 
+In particular, what are P1, P2, P3, and P4? 
+If you watch closely you'll see that this simulation reports a much higher percentage of TLB misses
+than random runs on CAMERA did. Why might this be?
+
+A: The P stands for Process.
+Every time a context switch happens, the TLB and page table gets invalidated.
+The processes also do not reuse enough pages in TLB and page table before that happens.
+
+Q:
+Select all factors that would cause the simulation to show a lower TLB hit rate than our original model.
+Multiple processes are running.
+Running multiple processes requires the system to context switch.
+Context switches invalidate the TLB.
